@@ -9,10 +9,18 @@ export default defineConfig(() => ({
     host: "::",
     port: 8080,
   },
+  preview: {
+    port: 8080,
+    host: '0.0.0.0',
+  },
   plugins: [react()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+  },
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true,
   },
 }));
