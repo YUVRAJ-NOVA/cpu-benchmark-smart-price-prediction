@@ -29,10 +29,20 @@ export const useCPUs = (limit?: number) => {
   return useQuery<CPU[]>({
     queryKey: ['cpus', limit],
     queryFn: async () => {
-      const { data } = await api.get('/api/cpus/', {
-        params: limit ? { limit } : undefined,
-      });
-      return data;
+      try {
+        const { data } = await api.get('/api/cpus/', {
+          params: limit ? { limit } : undefined,
+        });
+        console.log('✅ CPU Data received:', Array.isArray(data) ? `${data.length} items` : typeof data);
+        if (!Array.isArray(data)) {
+          console.error('❌ Expected array but got:', data);
+          return [];
+        }
+        return data;
+      } catch (error) {
+        console.error('❌ Failed to fetch CPUs:', error);
+        throw error;
+      }
     },
   });
 };
@@ -94,8 +104,18 @@ export const useCategories = () => {
   return useQuery<string[]>({
     queryKey: ['categories'],
     queryFn: async () => {
-      const { data } = await api.get('/api/cpus/categories');
-      return data;
+      try {
+        const { data } = await api.get('/api/cpus/categories');
+        console.log('✅ Categories received:', data);
+        if (!Array.isArray(data)) {
+          console.error('❌ Expected array but got:', data);
+          return [];
+        }
+        return data;
+      } catch (error) {
+        console.error('❌ Failed to fetch categories:', error);
+        throw error;
+      }
     },
   });
 };
