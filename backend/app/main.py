@@ -4,6 +4,7 @@ from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from contextlib import asynccontextmanager
 import sys
+import os
 from pathlib import Path
 
 # Add parent directory to path for imports
@@ -56,7 +57,12 @@ app = FastAPI(
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, specify exact origins
+    allow_origins=[
+        "http://localhost:5173",  # Local development
+        "http://localhost:8080",
+        os.getenv("FRONTEND_URL", ""),  # Railway frontend URL
+        "https://*.railway.app",  # Allow all Railway domains
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
