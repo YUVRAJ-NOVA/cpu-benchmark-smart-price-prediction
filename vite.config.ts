@@ -22,6 +22,11 @@ export default defineConfig(({ mode }) => {
       port: 8080,
       host: '0.0.0.0',
       strictPort: false,
+      allowedHosts: [
+        '.railway.app',
+        'localhost',
+        '127.0.0.1',
+      ],
     },
     plugins: [react()],
     resolve: {
